@@ -20,7 +20,9 @@ Version Control: Git, GitHub
 ## Screenshots
 ## HomePage
 ![s1](https://github.com/Kumaripriyanshi/PetShop/assets/90835349/b6b73a7e-821e-4cac-aee6-217ba4077d1a)
+## CartPage
 ![s4](https://github.com/Kumaripriyanshi/PetShop/assets/90835349/3ca8c407-4ecd-4872-b455-08a40091a979)
+## Seller Dahsboard
 ![s3](https://github.com/Kumaripriyanshi/PetShop/assets/90835349/938f2f8f-9469-4733-af47-cb26c24363b2)
 ![s2](https://github.com/Kumaripriyanshi/PetShop/assets/90835349/2c848b0a-d055-4162-9a2d-92ba502fbc05)
 
