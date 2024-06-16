@@ -12,17 +12,19 @@ import { useCategorySearch } from "../context/categoryFilterContext";
 
 const FiltersSection = () => {
   const [item, setItem] = useState([]);
+  const [pet, setPets] = useState([]);
+  const [filterpet, setFilterPets] = useState([]);
+
   const [filterKeyword, setFilterKeyword] = useState({
     category: [],
     prices: 1,
   });
+  // const [pets, setPets] = useP
   const [categoryKeywords, setCategoryKeywords] = useCategorySearch();
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const res = await axios.get(
-        "/api/v1/category/getAllCategories"
-      );
+      const res = await axios.get("/api/v1/category/getAllCategories");
 
       setItem(res.data.categoriesList);
     };
@@ -46,19 +48,45 @@ const FiltersSection = () => {
       setCategoryKeywords((prev) => (prev = e.target.value));
     } else setCategoryKeywords((prev) => (prev = ""));
   };
+  useEffect(() => {
+    const fetchPets = async () => {
+      const res = await axios.get("/api/v1/pets/getallpets");
+      setPets(res.data.allpets);
+      setFilterPets(res.data.allpets);
+    };
 
+    filterpet.filter((e) => e.breed != "unknown");
+    fetchPets();
+  }, [pet]);
   return (
     <>
       <h3>Filters</h3>
       <Divider />
       <div className="d-flex flex-column ">
-        <h3 className="mb-3">Category</h3>
-        {item.map((elem) => {
+        <h3 className="mb-3">Breeds</h3>
+        {pet
+          .filter((e) => e.breed != "unknown")
+          .map((elem) => {
+            return (
+              <Checkbox
+                onChange={onChange}
+                value={`${elem.breed}`}
+                name="breed"
+                key={elem._id}
+              >
+                {elem.breed}
+              </Checkbox>
+            );
+          })}
+      </div>
+      <div className="d-flex flex-column mx-auto">
+        <h3 className="mb-3">Animal</h3>
+        {pet.map((elem) => {
           return (
             <Checkbox
               onChange={onChange}
               value={`${elem.name}`}
-              name="category"
+              name="animal"
               key={elem._id}
             >
               {elem.name}
@@ -66,15 +94,13 @@ const FiltersSection = () => {
           );
         })}
       </div>
-      <div className="d-flex flex-column mx-auto">
-        <h3 className="mb-3">Prices</h3>
-        <Checkbox onChange={onChange}  name="prices" value={-1}>
-          High to Low
-        </Checkbox>
-        <Checkbox onChange={onChange} name="prices" value={1}>
-          Low to High
-        </Checkbox>
-
+      <div className="d-flex flex-column mt-5">
+        <button
+          className="btn btn-danger"
+          onClick={() => window.location.reload()}
+        >
+          RESET FILTERS
+        </button>
       </div>
     </>
   );

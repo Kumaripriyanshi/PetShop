@@ -4,10 +4,10 @@ import fs from "fs";
 
 export const addPets = async (req, res) => {
   try {
-    const { name, category, price, quantity } = req.fields;
+    const { name, breed, age } = req.fields;
     const { photo } = req.files;
 
-    if (!name || !category || !price || !quantity || !photo)
+    if (!name || !breed || !age || !photo)
       return res
         .status(500)
         .send({ sucess: false, message: "Something is missing!!" });
@@ -15,6 +15,7 @@ export const addPets = async (req, res) => {
     const newPet = new petModel({ ...req.fields });
     newPet.photo.data = fs.readFileSync(photo.path);
     newPet.photo.contentType = photo.type;
+    newPet.seller = req.user._id;
     await newPet.save();
 
     res.status(200).send({
@@ -33,7 +34,7 @@ export const getAllPets = async (req, res) => {
   try {
     const allpets = await petModel
       .find({})
-      .populate("category")
+      .populate("seller")
       .select("-photo")
       .sort({ createdAt: 1 }); //sorting in ascending order according to creation timing
 
@@ -54,7 +55,10 @@ export const getAllPets = async (req, res) => {
 export const getpetsById = async (req, res) => {
   try {
     const { id } = req.params;
-    const allpets = await petModel.findById(id).select("-photo");
+    const allpets = await petModel
+      .findById(id)
+      .populate("seller")
+      .select("-photo");
 
     res.status(200).send({
       success: true,
@@ -90,29 +94,29 @@ export const getpetphoto = async (req, res) => {
 
 export const updatepets = async (req, res) => {
   try {
-    const { name, category, price, quantity } = req.fields;
+    const { name, breed, age } = req.fields;
     const { photo } = req.files;
-    
-    const {id}=req.params
-    let updObj={}
-    if(name)updObj.name=name
-    if(category) updObj.category=category
-    if(price) updObj.price =price
-    if(quantity) updObj.quantity=quantity
+
+    const { id } = req.params;
+    let updObj = {};
+    if (name) updObj.name = name;
+    // if (category) updObj.category = category;
+    if (price) updObj.breed = breed;
+    if (quantity) updObj.age = age;
 
     // const newPet = new petModel({ ...req.fields });
     // newPet.photo.data = fs.readFileSync(photo.path);
     // newPet.photo.contentType = photo.type;
     // await newPet.save();
     // if(photo)updObj.photo=photo
-    const pet = await petModel.findByIdAndUpdate(id,updObj,{new:true}).select("-photo")
-    if(photo){
+    const pet = await petModel
+      .findByIdAndUpdate(id, updObj, { new: true })
+      .select("-photo");
+    if (photo) {
       pet.photo.data = fs.readFileSync(photo.path);
-    pet.photo.contentType = photo.type;
-    await pet.save();
+      pet.photo.contentType = photo.type;
+      await pet.save();
     }
-
-
 
     res.status(200).send({
       success: true,
@@ -146,7 +150,8 @@ export const searchByFilter = async (req, res) => {
     const { keywords } = req.params;
     const pet = await petModel
       .find({ name: { $regex: keywords, $options: "i" } })
-      .select("-photo");
+      .select("-photo")
+      .populate("seller");
     if (!pet) {
       res.status(400).send({
         success: false,
@@ -178,7 +183,7 @@ export const searchByCategoryFilter = async (req, res) => {
     if (keywords === "1" || keywords === "-1") {
       pet = await petModel
         .find({})
-        .populate("category")
+        .populate("seller")
         .select("-photo")
         .sort({ price: parseInt(keywords) }); //sorting in ascending order according to creation timing
     } else {

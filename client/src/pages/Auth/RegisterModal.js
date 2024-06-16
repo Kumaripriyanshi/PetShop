@@ -1,54 +1,50 @@
-import React ,{useState} from 'react'
-import Layout from '../../components/Layouts/Layout'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-hot-toast'
+import React, { useState } from "react";
+import Layout from "../../components/Layouts/Layout";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 import axios from "axios";
 
 const RegisterModal = () => {
-  
-  const [name ,setName]= useState("")
-  const [email ,setEmail]= useState("")
-  const [password ,setPassword]= useState("")
-  const [phone ,setPhone]= useState("")
-  const [address ,setAddress]= useState("")
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [role, setrole] = useState("");
   const navigate = useNavigate();
   // "proxy": "http://localhost:8080",
-  const handleSubmit = async(e)=>{
-    console.log("jkjkjkjkj")
-      e.preventDefault();
-      try{
-        const res = await axios.post("/api/v1/auth/register",{
-          name ,
-          email ,
-          password ,
-          phone ,
-          address,
-        });
-        
-        
-        if(res && res.data.sucess){
-          toast.success(res.data && res.data.message)
-          console.log("jkjkjkjkj")
-          navigate("/login")
-        }else{
-          toast.error(res.data.message)
-          console.log("res data=",res.data)
-        }
-      }catch(error){
-        console.log(error);
-        toast.error("Something went wrong");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("/api/v1/auth/register", {
+        name,
+        email,
+        password,
+        phone,
+        address,
+        role,
+      });
+
+      if (res && res.data.sucess) {
+        toast.success(res.data && res.data.message);
+
+        navigate("/login");
+      } else {
+        toast.error(res.data.message);
+        console.log("res data=", res.data);
       }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
+  };
 
-
-  }
- 
   return (
     <Layout title="Register - Ecommer App">
       <div className="form-container ">
         <form onSubmit={handleSubmit}>
           <h4 className="title">REGISTER FORM</h4>
           <div className="mb-3">
-
             <input
               type="text"
               value={name}
@@ -99,25 +95,32 @@ const RegisterModal = () => {
 
           <div className="mb-3">
             <input
-              type="text"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              className="form-control"
-              id="exampleInputEmail1"
-              placeholder="Enter Your Address"
-              required
+              type="radio"
+              id="buyer"
+              name="role"
+              value="Buyer"
+              onChange={(e) => setrole(e.target.value)}
             />
+            <label for="buyer">Buyer</label>
+            <br />
+            <input
+              type="radio"
+              id="seller"
+              name="role"
+              value="Seller"
+              onChange={(e) => setrole(e.target.value)}
+            />
+            <label for="seller">Seller</label>
+            <br />
           </div>
 
           <button type="submit" className="btn btn-primary">
             REGISTER
           </button>
-
         </form>
       </div>
     </Layout>
+  );
+};
 
-  )
-}
-
-export default Register
+export default Register;

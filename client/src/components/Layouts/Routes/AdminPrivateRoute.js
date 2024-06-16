@@ -7,14 +7,12 @@ const AdminPrivateRoute = () => {
   const [showOutlet, setShowOutlet] = useState(false);
   useEffect(() => {
     const outletCheck = async () => {
-      const res = await axios.get(
-        "/api/v1/auth/admin-auth-check"
-      );
+      const res = await axios.get("/api/v1/auth/admin-auth-check");
       if (res.data.success) setShowOutlet(true);
     };
 
     if (auth?.token) {
-      outletCheck()
+      outletCheck();
     }
   }, [auth?.token]);
 

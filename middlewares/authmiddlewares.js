@@ -15,19 +15,23 @@ export const isSignedin = async (req, res, next) => {
 
 export const isAdmin = async (req, res, next) => {
   try {
-    const user = userModel.findById(req.user._id);
-
-    if (user.role !== 1) {
-      next();
-    } else
-      res.status(400).send({
+    const user = await userModel.findById(req.user._id);
+    if (user.role !== "Seller") {
+      console.log("No Seller here ");
+      return res.status(401).send({
         success: false,
-        message: "Error in admin signin",
+        message: "UnAuthorized Access",
       });
+    } else {
+      console.log("Yes Seller here ");
+      next();
+    }
   } catch (error) {
-    res.status(400).send({
+    console.log(error);
+    res.status(401).send({
       success: false,
-      message: "Error in admin signin",
+      error,
+      message: "Error in Seller middelware",
     });
   }
 };

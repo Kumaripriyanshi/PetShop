@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../components/Layouts/Layout";
-import Carousel from "./Carousel"
+import Carousel from "./Carousel";
 import FiltersPhotos from "./FiltersPhotos";
 
 const HomePage = () => {

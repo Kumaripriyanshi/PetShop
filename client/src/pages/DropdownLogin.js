@@ -2,16 +2,16 @@ import React from "react";
 import { Dropdown, message, Space, Input } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { useAuth } from "../context/auth";
-import {NavLink, useNavigate} from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom";
 
 const DropdownLogin = (props) => {
   const [auth, setAuth] = useAuth();
- const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleLogout = () => {
     console.log("logout Function");
     setAuth({ user: null, token: "" });
     localStorage.clear();
-    navigate("/")
+    navigate("/");
   };
 
   const onClick = ({ key }) => {
@@ -20,7 +20,13 @@ const DropdownLogin = (props) => {
 
   const items = [
     {
-      label: <NavLink to={`/dashboard/${auth?.user.role===1?"admin":"user"}`}>DASHBOARD</NavLink>,
+      label: (
+        <NavLink
+          to={`/dashboard/${auth?.user.role === "Seller" ? "Seller" : "user"}`}
+        >
+          DASHBOARD
+        </NavLink>
+      ),
       key: "1",
     },
     { label: "LOGOUT", key: "2" },

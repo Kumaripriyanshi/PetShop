@@ -9,7 +9,9 @@ const FormPage = () => {
       <h4 className="profile-heading">{auth.user.email}</h4>
       <h4 className="profile-heading">{auth.user.phone}</h4>
       <h4 className="profile-heading">{auth.user.address}</h4>
-      <h4 className="profile-heading">{auth.user.role === 1 ? "Admin" : "User"}</h4>
+      <h4 className="profile-heading">
+        {auth.user.role === "Seller" ? "Seller" : "User"}
+      </h4>
     </div>
   );
 };

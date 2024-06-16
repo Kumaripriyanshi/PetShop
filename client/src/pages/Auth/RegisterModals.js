@@ -9,22 +9,21 @@ const RegisterModals = (props) => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [role, setrole] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     // console.log("jkjkjkjkj");
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "/api/v1/auth/register",
-        {
-          name,
-          email,
-          password,
-          phone,
-          address,
-        }
-      );
+      const res = await axios.post("/api/v1/auth/register", {
+        name,
+        email,
+        password,
+        phone,
+        address,
+        role,
+      });
 
       if (res.data.success) {
         toast.success(res.data.message);
@@ -112,6 +111,30 @@ const RegisterModals = (props) => {
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
           />
+        </div>
+
+        <div className="mb-3 d-flex justify-content-around">
+          <div>
+            <input
+              type="radio"
+              id="buyer"
+              name="role"
+              value="Buyer"
+              onChange={(e) => setrole(e.target.value)}
+            />
+            <label for="buyer">Buyer</label>
+          </div>
+
+          <div>
+            <input
+              type="radio"
+              id="seller"
+              name="role"
+              value="Seller"
+              onChange={(e) => setrole(e.target.value)}
+            />
+            <label for="seller">Seller</label>
+          </div>
         </div>
 
         <button

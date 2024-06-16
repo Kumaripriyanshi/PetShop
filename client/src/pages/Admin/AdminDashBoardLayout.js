@@ -10,36 +10,22 @@ const AdminDashBoardLayout = ({ children }) => {
         <div className="col-md-3 col-lg-3 dashboard-choice">
           <ul>
             <li>
-              <NavLink to="/dashboard/admin/admin-details" >
-                DASHBOARD
-              </NavLink>
+              <NavLink to="/dashboard/Seller/admin-details">DASHBOARD</NavLink>
             </li>
             <li>
-              <NavLink
-                to="/dashboard/admin/update-profile"   
-              >
-                PROFILE
-              </NavLink>
+              <NavLink to="/dashboard/Seller/update-profile">PROFILE</NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink to="/dashboard/admin/orders" >
                 ORDERS
               </NavLink>
+            </li> */}
+
+            <li>
+              <NavLink to="/dashboard/Seller/create-product">ADD PETS</NavLink>
             </li>
             <li>
-              <NavLink to="/dashboard/admin/create-category" >
-                CREATE CATEGORY
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/dashboard/admin/create-product" >
-                CREATE PRODUCT
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/dashboard/admin/products" >
-                PRODUCTS
-              </NavLink>
+              <NavLink to="/dashboard/Seller/products">ALL PETS</NavLink>
             </li>
           </ul>
         </div>

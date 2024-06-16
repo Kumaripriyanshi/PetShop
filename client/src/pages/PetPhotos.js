@@ -8,7 +8,7 @@ import { useSearch } from "../context/searchContext";
 import { useCategorySearch } from "../context/categoryFilterContext";
 import { BsCart4 } from "react-icons/bs";
 import { usePrice } from "../context/priceContext";
-
+import { FaHeart } from "react-icons/fa";
 const PetPhotos = () => {
   const [pet, setPets] = useState([]);
   const [cart, setCart] = useCart();
@@ -23,16 +23,12 @@ const PetPhotos = () => {
       console.log("keywords here", keywords);
       if (keywords) {
         // http://localhost:8080/api/v1/pets/searchByFilter/german
-        const res = await axios.get(
-          `http://localhost:8080/api/v1/pets/searchByFilter/${keywords}`
-        );
+        const res = await axios.get(`/api/v1/pets/searchByFilter/${keywords}`);
         setPets(res.data.pet);
         // console.log("pets length",pet.length,pet)
       } else {
         if (!categoryKeywords) {
-          const res = await axios.get(
-            "http://localhost:8080/api/v1/pets/getallpets"
-          );
+          const res = await axios.get("/api/v1/pets/getallpets");
           setPets(res.data.allpets);
         }
       }
@@ -47,7 +43,7 @@ const PetPhotos = () => {
     const fetchProduct = async () => {
       if (categoryKeywords) {
         const res = await axios.get(
-          `http://localhost:8080/api/v1/pets/searchByFilterCategory/${categoryKeywords}`
+          `/api/v1/pets/searchByFilterCategory/${categoryKeywords}`
         );
 
         if (categoryKeywords !== "1" || categoryKeywords !== "-1") {
@@ -59,9 +55,7 @@ const PetPhotos = () => {
         }
       } else {
         if (!keywords) {
-          const res = await axios.get(
-            "http://localhost:8080/api/v1/pets/getallpets"
-          );
+          const res = await axios.get("/api/v1/pets/getallpets");
           setPets(res.data.allpets);
         }
       }
@@ -115,13 +109,13 @@ const PetPhotos = () => {
                       if (checkExistence(c._id) === false) {
                         setCart([...cart, c]);
 
-                        let price = localStorage.getItem("price");
-                        let intPrice = 0;
-                        if (price) {
-                          intPrice = JSON.parse(price);
-                          intPrice += parseInt(c.price);
-                        } else intPrice = parseInt(c.price);
-                        localStorage.setItem("price", JSON.stringify(intPrice));
+                        // let price = localStorage.getItem("price");
+                        // let intPrice = 0;
+                        // if (price) {
+                        //   intPrice = JSON.parse(price);
+                        //   intPrice += parseInt(c.price);
+                        // } else intPrice = parseInt(c.price);
+                        // localStorage.setItem("price", JSON.stringify(intPrice));
 
                         localStorage.setItem(
                           "user-cart",
@@ -132,16 +126,21 @@ const PetPhotos = () => {
                       console.log(cart);
                     }}
                   >
-                    <BsCart4 title="Add to cart" />
+                    <FaHeart
+                      fill="red"
+                      size={20}
+                      color="red"
+                      title="Add to cart"
+                    />
                   </NavLink>
                 </div>
                 <div className="price d-flex justify-content-between">
-                  <span>Price</span>
-                  <span className="card-text">₹{c.price}</span>
+                  <span>Breed</span>
+                  <span className="card-text">{c.breed}</span>
                 </div>
                 <div className="quantity d-flex justify-content-between">
-                  <span>Quantity</span>
-                  <span className="card-text">{c.quantity}</span>
+                  <span>Age</span>
+                  <span className="card-text">{c.age}</span>
                 </div>
                 {/* <NavLink
                   to={auth?.token ? "/cart" : ""}

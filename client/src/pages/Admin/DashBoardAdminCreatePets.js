@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AdminDashBoardLayout from "./AdminDashBoardLayout";
 
-
 import { useAuth } from "../../context/auth";
 
 import axios from "axios";
@@ -14,19 +13,15 @@ const DashBoardAdminCreatePets = () => {
   const [updValue] = useUpdate();
   const [photo, setPhoto] = useState("");
   const [name, setName] = useState(updValue.name ? updValue.name : "");
-  const [prices, setPrices] = useState(updValue.price ? updValue.price : 0);
-  const [quantity, setQuantity] = useState(
-    updValue.quantity ? updValue.quantity : 0
-  );
+  const [breed, setBreed] = useState(updValue.breed ? updValue.breed : "");
+  const [age, setAge] = useState(updValue.age ? updValue.age : 0);
   const [category, setCategory] = useState(
-    updValue.category ? updValue.quantity : ""
+    updValue.category ? updValue.category : ""
   );
 
   const [categories, setCategories] = useState([]);
   const fetchCategories = async () => {
-    const res = await axios.get(
-      "/api/v1/category/getAllCategories"
-    );
+    const res = await axios.get("/api/v1/category/getAllCategories");
     setCategories(res.data.categoriesList);
 
     // console.log("category items ",items ,categoryArray);
@@ -40,15 +35,12 @@ const DashBoardAdminCreatePets = () => {
     // e.preventDefault();
     const formData = new FormData();
     formData.append("name", name);
-    formData.append("price", parseInt(prices));
-    formData.append("quantity", parseInt(quantity));
-    formData.append("category", category);
+    formData.append("breed", breed);
+    formData.append("age", age);
+    // formData.append("category", category);
     formData.append("photo", photo);
 
-    const { data } = axios.post(
-      "/api/v1/pets/addpets",
-      formData
-    );
+    const { data } = axios.post("/api/v1/pets/addpets", formData);
     if (data?.success) {
       console.log(data);
     }
@@ -59,8 +51,8 @@ const DashBoardAdminCreatePets = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("name", name);
-    formData.append("price", parseInt(prices));
-    formData.append("quantity", parseInt(quantity));
+    formData.append("breed", breed);
+    formData.append("age", age);
     // formData.append("category", category);
     formData.append("photo", photo);
 
@@ -70,13 +62,13 @@ const DashBoardAdminCreatePets = () => {
     );
     console.log("update", data);
     if (data?.success) {
-      console.log("Sucecevcehrehhhhhhhhhhhhiuuuuu");
+      // console.log("Sucecevcehrehhhhhhhhhhhhiuuuuu");
     }
   };
 
   return (
     <AdminDashBoardLayout>
-      {console.log("update value is equal to ", prices)}
+      {/* {console.log("update value is equal to ", prices)} */}
 
       {updValue._id ? (
         <form
@@ -136,39 +128,39 @@ const DashBoardAdminCreatePets = () => {
           </div>
           <div className="form-group row">
             <label for="inputEmail3" className="col-sm-2 col-form-label">
-              Price
+              Breed
             </label>
             <div className="col-sm-10">
               <input
                 type="text"
                 className="form-control"
                 id="inputEmail3"
-                placeholder="Price"
-                value={prices}
+                placeholder="Breed"
+                value={breed}
                 onChange={(e) => {
-                  setPrices(e.target.value);
+                  setBreed(e.target.value);
                 }}
               />
             </div>
           </div>
           <div className="form-group row">
             <label for="inputEmail3" className="col-sm-2 col-form-label">
-              Quantity
+              Age
             </label>
             <div className="col-sm-10">
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 id="inputEmail3"
-                placeholder="Quantity"
-                value={quantity}
+                placeholder="Age"
+                value={age}
                 onChange={(e) => {
-                  setQuantity(e.target.value);
+                  setAge(e.target.value);
                 }}
               />
             </div>
           </div>
-          <div className="form-group row">
+          {/* <div className="form-group row">
             <label for="inputEmail3" className="col-sm-2 col-form-label">
               Category
             </label>
@@ -179,7 +171,6 @@ const DashBoardAdminCreatePets = () => {
                 size="large"
                 showSearch
                 className="form-select mb-3"
-               
                 value={category}
                 onChange={(value) => {
                   setCategory(value);
@@ -192,7 +183,7 @@ const DashBoardAdminCreatePets = () => {
                 ))}
               </Select>
             </div>
-          </div>
+          </div> */}
 
           <div className="form-group row">
             <div className="col-sm-10">
@@ -260,7 +251,7 @@ const DashBoardAdminCreatePets = () => {
           </div>
           <div className="form-group row">
             <label for="inputEmail3" className="col-sm-2 col-form-label">
-              Price
+              Breed
             </label>
             <div className="col-sm-10">
               <input
@@ -268,31 +259,31 @@ const DashBoardAdminCreatePets = () => {
                 className="form-control"
                 id="inputEmail3"
                 placeholder="Price"
-                value={prices}
+                value={breed}
                 onChange={(e) => {
-                  setPrices(parseInt(e.target.value));
+                  setBreed(e.target.value);
                 }}
               />
             </div>
           </div>
           <div className="form-group row">
             <label for="inputEmail3" className="col-sm-2 col-form-label">
-              Quantity
+              Age
             </label>
             <div className="col-sm-10">
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 id="inputEmail3"
-                placeholder="Quantity"
-                value={quantity}
+                placeholder="Age"
+                value={age}
                 onChange={(e) => {
-                  setQuantity(parseInt(e.target.value));
+                  setAge(e.target.value);
                 }}
               />
             </div>
           </div>
-          <div className="form-group row">
+          {/* <div className="form-group row">
             <label for="inputEmail3" className="col-sm-2 col-form-label">
               Category
             </label>
@@ -315,15 +306,11 @@ const DashBoardAdminCreatePets = () => {
                 ))}
               </Select>
             </div>
-          </div>
+          </div> */}
 
           <div className="form-group row">
             <div className="col-sm-10">
-              <button
-              
-                className="btn btn-primary"
-                onClick={addnewPet}
-              >
+              <button className="btn btn-primary" onClick={addnewPet}>
                 Create
               </button>
             </div>

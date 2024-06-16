@@ -12,6 +12,7 @@ import { useSearch } from "../../context/searchContext";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Avatar, Badge } from "antd";
 import { useCart } from "../../context/cartContext";
+import { FaHeart } from "react-icons/fa";
 const { Search } = Input;
 
 const Header = () => {
@@ -19,7 +20,7 @@ const Header = () => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [keywords, setKeyword] = useSearch();
   const [signupClicked, setsignupClicked] = useState(false);
-  const [cart,setCart] = useCart()
+  const [cart, setCart] = useCart();
 
   const [auth, setAuth] = useAuth();
 
@@ -64,7 +65,7 @@ const Header = () => {
   return (
     <>
       {/* ctr+i for emoji sense  along with typing the colon before */}
-      <nav className="navbar fixed-top navbar-expand-lg bg-body-tertiary" >
+      <nav className="navbar fixed-top navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand">
             <div className="text-center">PET</div>
@@ -91,33 +92,35 @@ const Header = () => {
                 value={keywords}
               />
             </Space>
-            <ul className="navbar-nav mb-2 mb-lg-0" style={{"width":"25%"}}>
+            <ul className="navbar-nav mb-2 mb-lg-0" style={{ width: "25%" }}>
               <li className="nav-item">
                 <NavLink to="/" className="nav-link ">
                   Home
                 </NavLink>
               </li>
-              <li className="nav-item dropdown-links">
+              {/* <li className="nav-item dropdown-links">
                 <DropdownCategories />
-              </li>
+              </li> */}
 
               {auth.user ? (
-                <li className="nav-item dropdown-links" >
+                <li className="nav-item dropdown-links">
                   <DropdownLogin name={auth.user.name} />
                 </li>
               ) : (
-                <li className="nav-item dropdown-links"  onClick={showModal}>
+                <li className="nav-item dropdown-links" onClick={showModal}>
                   LOGIN
                 </li>
               )}
 
-              <li className="nav-item" style={{"marginLeft":"3px !important" ,"paddingTop":"2%"}}>
-                  <Badge count={cart.length} showZero>
+              <li
+                className="nav-item"
+                style={{ marginLeft: "3px !important", paddingTop: "2%" }}
+              >
+                <Badge count={cart.length} showZero>
                   <NavLink to="/cart" className="nav-link">
-                    cart
-                </NavLink>
-                  </Badge>
-                
+                    <FaHeart fill="red" size={20} color="red" />
+                  </NavLink>
+                </Badge>
               </li>
             </ul>
           </div>

@@ -22,14 +22,16 @@ const DashBoardLayout = ({ children }) => {
                 PROFILE
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink to="/dashboard/user/orders" id="userOrder">
                 ORDERS
               </NavLink>
-            </li>
+            </li> */}
           </ul>
         </div>
-        <div className="col-md-9 col-lg-9">{children?children:<FormPage />}</div>
+        <div className="col-md-9 col-lg-9">
+          {children ? children : <FormPage />}
+        </div>
       </div>
     </Layout>
   );

@@ -4,12 +4,14 @@ import JWT from "jsonwebtoken";
 
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, address } = req.body;
+    const { name, email, password, phone, address, role } = req.body;
     if (!name) return res.send({ error: "Name is required" });
     if (!email) return res.send({ error: "Email is required" });
     if (!password) return res.send({ error: "Password is required" });
     if (!phone) return res.send({ error: "Phone is required" });
     if (!address) return res.send({ error: "Address is required" });
+    if (!role) return res.send({ error: "Role is required" });
+
     // if (!answer) return res.send({ error: "Answer is required" });
 
     const existingUser = await userModel.findOne({ email });
@@ -27,7 +29,7 @@ export const registerController = async (req, res) => {
       phone,
       address,
       password: hashedPassword,
-   
+      role,
     }).save();
 
     res.status(201).send({
@@ -79,9 +81,9 @@ export const loginController = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        phone:user.phone,
-        address:user.address,
-        role:user.role,
+        phone: user.phone,
+        address: user.address,
+        role: user.role,
       },
       token,
     });
@@ -102,35 +104,28 @@ export const testController = async (req, res) => {
   }
 };
 
-
-
 export const updateCredentials = async (req, res) => {
   try {
-    
-
     const { name, email, phone, address } = req.body;
-    const {id}=req.params
-    let updObj={}
-    if(name)updObj.name=name
-    if(email) updObj.email=email
-    if(phone) updObj.phone =phone
-    if(address) updObj.address=address
-    const user = await userModel.findByIdAndUpdate(id,updObj,{new:true}).select("-password")
+    const { id } = req.params;
+    let updObj = {};
+    if (name) updObj.name = name;
+    if (email) updObj.email = email;
+    if (phone) updObj.phone = phone;
+    if (address) updObj.address = address;
+    const user = await userModel
+      .findByIdAndUpdate(id, updObj, { new: true })
+      .select("-password");
 
     // await user.update({new:true}).save()
-    const token = await JWT.sign(
-      { _id: id },
-      process.env.JWT_SECRET_KEY,
-      {
-        expiresIn: "7d",
-      }
-    );
+    const token = await JWT.sign({ _id: id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "7d",
+    });
     res.status(200).send({
-      success:true,
+      success: true,
       user,
-      token
-    })
-
+      token,
+    });
   } catch (err) {
     console.log(err);
   }

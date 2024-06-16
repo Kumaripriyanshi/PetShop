@@ -17,9 +17,7 @@ import DashBoardAdminCreatePets from "./pages/Admin/DashBoardAdminCreatePets";
 import DashBoardAdminAllPets from "./pages/Admin/DashBoardAdminAllPets";
 import DashBoardAdminDetails from "./pages/Admin/DashBoardAdminDetails";
 
-
 function App() {
- 
   return (
     <>
       <Routes>
@@ -30,19 +28,33 @@ function App() {
         <Route path="/dashboard" element={<UserPrivateRoute />}>
           <Route path="user" element={<DashBoardLayout />} />
           <Route path="user/user-details" element={<DashBoardDetails />} />
-          <Route path="user/update-profile" element={<DashBoardProfileUpdate />}/>
+          <Route
+            path="user/update-profile"
+            element={<DashBoardProfileUpdate />}
+          />
           <Route path="user/orders" element={<DashBoardOrders />} />
         </Route>
 
         <Route path="/dashboard" element={<AdminPrivateRoute />}>
-          <Route path="admin" element={<AdminDashBoardLayout />} />
-          <Route path="admin/admin-details" element={<DashBoardAdminDetails />} />
-          <Route path="admin/update-profile" element={<DashBoardAdminProfileUpd />} />
-          <Route path="admin/orders" element={<DashBoardAdminAllOrder />} />
-          <Route path="admin/create-category" element={<DashBoardAdminCreateCategory />} />
-          <Route path="admin/create-product" element={<DashBoardAdminCreatePets />} />
-          <Route path="admin/products" element={<DashBoardAdminAllPets />} />
-
+          <Route path="Seller" element={<AdminDashBoardLayout />} />
+          <Route
+            path="Seller/Seller-details"
+            element={<DashBoardAdminDetails />}
+          />
+          <Route
+            path="Seller/update-profile"
+            element={<DashBoardAdminProfileUpd />}
+          />
+          <Route path="Seller/orders" element={<DashBoardAdminAllOrder />} />
+          <Route
+            path="Seller/create-category"
+            element={<DashBoardAdminCreateCategory />}
+          />
+          <Route
+            path="Seller/create-product"
+            element={<DashBoardAdminCreatePets />}
+          />
+          <Route path="Seller/products" element={<DashBoardAdminAllPets />} />
         </Route>
 
         <Route path="*" element={<Pagenotfound />} />

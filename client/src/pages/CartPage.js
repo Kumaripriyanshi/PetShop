@@ -24,9 +24,7 @@ const CartPage = () => {
 
   const fetchPets = async (id) => {
     console.log("id = ", id);
-    const res = await axios.get(
-      `/api/v1/pets/getpetsById/${id}`
-    );
+    const res = await axios.get(`/api/v1/pets/getpetsById/${id}`);
     // setPets((prev)=>prev=res.data.allpets)
     // setPets([...pets,res.data.allpets])
     petsar.push(res.data.allpets);
@@ -71,91 +69,124 @@ const CartPage = () => {
 
   return (
     <Layout>
-      <div className="row cartpage-lay">
-        <div className="col-md-8 col-lg-8 d-flex flex-wrap">
-          {cart.length>0?cart.map((c, idx) => {
-            return (
-              <div
-                className="card pet-photo-style "
-                style={{ width: "18rem", height: "100%" }}
-                key={idx}
-              >
-                <img
-                  src={`/api/v1/pets/getpetphoto/${c._id}`}
-                  className="card-img-top"
-                  alt="..."
-                />
-                <div className="card-body">
-                  <div className="cart-category d-flex justify-content-between">
-                    <h5 className="card-title">{c.name}</h5>
-                    <RiDeleteBinLine
-                      title="Remove from cart"
-                      onClick={() => {
-                        handleRemove(c._id);
-                      }}
-                      style={{ cursor: "pointer" }}
-                    />
-                  </div>
-                  <div className="price d-flex justify-content-between">
-                    <span>Price</span>
-                    <span className="card-text">₹{c.price}</span>
-                  </div>
-                  <div className="quantity d-flex justify-content-between">
-                    <span>Quantity</span>
-                    <span className="card-text">
-                      <InputNumber
-                        min={1}
-                        max={6}
-                        defaultValue={value}
-                        onChange={(val) => {
-                          let localPrice = localStorage.getItem("price");
-                          let price = 1;
-                          if (localPrice) {
-                            price = JSON.parse(localPrice);
-                          }
-                          setValue(parseInt(val));
-                          if (parseInt(val) < value) price = price - c.price;
-                          else price = price + c.price;
-                          localStorage.setItem("price", JSON.stringify(price));
+      {/* <div className="cartpage-lay">
+        <h2 style={{ margin: "auto" }}>
+          Hello {auth ? auth.user.name : "Guest"}
+        </h2>
+        <div className="d-flex" style={{ margin: "auto" }}>
+          {cart.length > 0 ? (
+            cart.map((c, idx) => {
+              return (
+                <div
+                  className="card pet-photo-style "
+                  style={{ width: "18rem", height: "100%" }}
+                  key={idx}
+                >
+                  <img
+                    src={`/api/v1/pets/getpetphoto/${c._id}`}
+                    className="card-img-top"
+                    alt="..."
+                  />
+                  <div className="card-body">
+                    <div className="cart-category d-flex justify-content-between">
+                      <h5 className="card-title">{c.name}</h5>
+                      <RiDeleteBinLine
+                        title="Remove from cart"
+                        onClick={() => {
+                          handleRemove(c._id);
                         }}
-                        id={c._id}
-                        ref={ref}
+                        style={{ cursor: "pointer" }}
                       />
-                    </span>
+                    </div>
+                    <div className="price d-flex justify-content-between">
+                      <span>Breed</span>
+                      <span className="card-text">{c.breed}</span>
+                    </div>
+                    <div className="quantity d-flex justify-content-between">
+                      <span>Age</span>
+                      <span className="card-text">{c.age}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          }):<h1 className="mx-auto">No Items in the Cart!!!</h1>}
+              );
+            })
+          ) : (
+            <h1 className="mx-auto" style={{ margin: "auto" }}>
+              No Items in the Cart!!!
+            </h1>
+          )}
         </div>
-        <div className="col-md-4 col-lg-4 mt-5">
-          <h1 className="text-center mb-5">Billing Summary</h1>
-          <Divider />
-          <div className="d-flex justify-content-between">
-            <span>Items</span>
-            <span className="card-text"> {cart.length} </span>
+      </div> */}
+
+      <div className=" cart-page " style={{ marginTop: "20px" }}>
+        <div className="row">
+          <div className="col-md-12">
+            <h1 className="text-center bg-light p-2 mb-1">
+              {!auth?.user
+                ? "Hello Guest"
+                : `Hello  ${auth?.token && auth?.user?.name}`}
+              <p className="text-center">
+                {cart?.length
+                  ? `You liked ${cart.length} properties ${
+                      auth?.token ? "" : "please login to checkout !"
+                    }`
+                  : " Your Haven't liked "}
+              </p>
+            </h1>
           </div>
-          <div className="d-flex justify-content-between">
-            <span>Price</span>
-            <span className="card-text">
-              ₹
-              {localStorage.getItem("price")
-                ? JSON.parse(localStorage.getItem("price"))
-                : 0}
-            </span>
+        </div>
+        <div className="container ">
+          <div className="row ">
+            <div className="col-md-7  p-0 m-0">
+              {cart?.map((p) => (
+                <div className="row card flex-row" key={p._id}>
+                  {/* {console.log("seller = ", p.seller)} */}
+                  <div className="col-md-9">
+                    <div className="row">
+                      <div className="col-md-4">
+                        <img
+                          src={`/api/v1/pets/getpetphoto/${p._id}`}
+                          className="card-img-top"
+                          alt={p.name}
+                          width="100%"
+                          height={"130px"}
+                        />
+                      </div>
+                      <div className="col-md-4">
+                        <p>Name : {p.name}</p>
+                        <p>Breed : {p.breed}</p>
+                        <p>Age : {p.age}</p>
+                      </div>
+                      <div className="col-md-4 cart-remove-btn mt-5">
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => handleRemove(p._id)}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  {console.log(p.seller)}
+                  <div className="col-md-3 card">
+                    {auth?.token ? (
+                      <div>
+                        <h5>Seller Details</h5>
+                        Name : {p.seller.name}
+                        <br />
+                        Email : {p.seller.email}
+                        <br />
+                        Phone : {p.seller.phone}
+                        <br />
+                      </div>
+                    ) : (
+                      <h4>Login to View Sellers Details</h4>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="d-flex justify-content-between">
-            <span>Delivery Address</span>
-            <span className="card-text"> {auth?.user?.address} </span>
-          </div>
-          <button
-            className="billingBtn"
-            onClick={() => {
-              console.log("renderred");
-            }}
-          >
-            Pay Now
-          </button>
         </div>
       </div>
     </Layout>

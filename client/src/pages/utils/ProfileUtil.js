@@ -4,7 +4,7 @@ import { useAuth } from "../../context/auth";
 import axios from "axios";
 
 const ProfileUtil = () => {
-  const [auth,setAuth] = useAuth()
+  const [auth, setAuth] = useAuth();
   const [credentials, setCredentials] = useState({
     name: auth.user.name,
     email: auth.user.email,
@@ -22,14 +22,14 @@ const ProfileUtil = () => {
       `/api/v1/auth/updateCredentials/${auth.user._id}`,
       credentials
     );
-  
-    setAuth({ user: res.data.user,token:res.data.token});
+
+    setAuth({ user: res.data.user, token: res.data.token });
     localStorage.setItem("auth-token", JSON.stringify(res.data));
     // console.log("res = ",res)
   };
   return (
     <>
-      <div className="container profile-form mt-3" >
+      <div className="container profile-form mt-3">
         <form>
           <div className="form-group row">
             <label htmlFor="inputEmail3" className="col-sm-2 col-form-label">
@@ -105,7 +105,7 @@ const ProfileUtil = () => {
                 className="form-control"
                 id="inputEmail3"
                 placeholder="Role"
-                value={auth.user.role === 1 ? "Admin" : "User"}
+                value={auth.user.role === "Seller" ? "Seller" : "User"}
                 disabled
               />
             </div>

@@ -7,21 +7,25 @@ const petSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    category: {
-      type: mongoose.ObjectId,
-      ref: "category",
-    },
-    price: {
-      type: Number,
+    // category: {
+    //   type: mongoose.ObjectId,
+    //   ref: "category",
+    // },
+    breed: {
+      type: String,
       required: true,
     },
-    quantity: {
+    age: {
       type: Number,
       required: true,
     },
     photo: {
       data: Buffer,
       contentType: String,
+    },
+    seller: {
+      type: mongoose.ObjectId,
+      ref: "users",
     },
   },
   { timestamps: true }
