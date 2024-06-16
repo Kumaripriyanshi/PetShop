@@ -18,7 +18,7 @@ Backend: Node jS
 Version Control: Git, GitHub
 
 ## Screenshots
-##HomePage
+## HomePage
 ![s1](https://github.com/Kumaripriyanshi/PetShop/assets/90835349/b6b73a7e-821e-4cac-aee6-217ba4077d1a)
 ![s4](https://github.com/Kumaripriyanshi/PetShop/assets/90835349/3ca8c407-4ecd-4872-b455-08a40091a979)
 ![s3](https://github.com/Kumaripriyanshi/PetShop/assets/90835349/938f2f8f-9469-4733-af47-cb26c24363b2)
